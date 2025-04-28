@@ -3,14 +3,13 @@ import { Button } from "@/components/ui/button";
 import {
   Users,
   Lightbulb,
-  Target,
   Star,
   Clock,
   Heart,
   MapPin,
   Train,
   Phone,
-  Target as TargetIcon,
+  Target,
   Eye,
   Sparkles,
 } from "lucide-react";
@@ -142,7 +141,7 @@ export default function AboutPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
               <div className="bg-neutral-50 p-8 rounded-xl text-center">
                 <div className="text-4xl mb-4 flex justify-center">
-                  <TargetIcon size={40} className="text-black" />
+                  <Target size={40} className="text-black" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">ミッション</h3>
                 <p className="text-neutral-600">
