@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import {
   Users,
   Lightbulb,
+  Target,
   Star,
   Clock,
   Heart,
@@ -105,7 +106,7 @@ export default function AboutPage() {
       title: "結果志向",
       description:
         "デザインの美しさだけでなく、クライアントのビジネス目標達成に貢献します。",
-      icon: <TargetIcon size={24} className="text-black" />,
+      icon: <Target size={24} className="text-black" />,
     },
   ];
 

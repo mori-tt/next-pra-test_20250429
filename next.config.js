@@ -9,8 +9,8 @@ const isLocalPreview = process.env.LOCAL_PREVIEW === "true";
 const nextConfig = {
   output: "export",
   // ローカルプレビュー時はベースパスを空にする
-  basePath: isProd && !isLocalPreview ? "/corporate-site_design" : "",
-  assetPrefix: isProd && !isLocalPreview ? "/corporate-site_design/" : "",
+  basePath: isProd && !isLocalPreview ? "/next-pra-test_20250429" : "",
+  assetPrefix: isProd && !isLocalPreview ? "/next-pra-test_20250429/" : "",
   images: {
     // Next.js の画像最適化機能を無効。静的エクスポートを行う場合、画像最適化は使用できないため
     unoptimized: true,
