@@ -1,5 +1,6 @@
 import { Button } from "./ui/button";
 import { MapPin, Phone } from "lucide-react";
+import { CONTACT_FORM_URL } from "@/constants/site";
 
 const Contact = () => {
   return (
@@ -48,7 +49,7 @@ const Contact = () => {
                 下記のボタンをクリックし、お問い合わせフォームにてご連絡ください。
               </p>
               <a
-                href="https://forms.gle/exampleFormLink"
+                href={CONTACT_FORM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
               >

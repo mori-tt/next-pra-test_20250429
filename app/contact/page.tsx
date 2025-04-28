@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { MapPin, Phone, Twitter, Instagram, Linkedin } from "lucide-react";
+import { CONTACT_FORM_URL } from "@/constants/site";
 
 const contactInfo = [
   {
@@ -91,7 +92,7 @@ export default function ContactPage() {
                   24時間以内に担当者からご連絡いたします。
                 </p>
                 <a
-                  href="https://forms.gle/exampleFormLink"
+                  href={CONTACT_FORM_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full max-w-md"
