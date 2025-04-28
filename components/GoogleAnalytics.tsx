@@ -1,7 +1,7 @@
 "use client";
 
 import Script from "next/script";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 // windowにgtagプロパティを追加するための型拡張
@@ -20,6 +20,7 @@ declare global {
  * Google Analytics (GA4) 実装用コンポーネント
  * - 測定IDを取得してGTAGスクリプトを読み込みます
  * - 静的生成に対応しています
+ * - ページ遷移とURLパラメータの変更を検知してトラッキングします
  *
  * @param {string} measurementId - Google Analytics測定ID (G-XXXXXXXXXX)
  * @returns JSX.Element - Scriptタグを含むコンポーネント
@@ -38,16 +39,21 @@ export default function GoogleAnalytics({
   measurementId: string;
 }) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  // useEffectはconditionalに呼び出すことはできないため、if文の外側で呼び出す
+  // パスとクエリパラメータの変更を監視してページビューをトラッキング
   useEffect(() => {
     // 測定IDが設定されていない場合は何もしない
-    if (!measurementId || !pathname || !window.gtag) return;
+    if (!measurementId || !window.gtag) return;
+
+    const url =
+      pathname +
+      (searchParams?.toString() ? `?${searchParams.toString()}` : "");
 
     window.gtag("config", measurementId, {
-      page_path: pathname,
+      page_path: url,
     });
-  }, [pathname, measurementId]);
+  }, [pathname, searchParams, measurementId]);
 
   // 測定IDが設定されていない場合は何も表示しない
   if (!measurementId) return null;
@@ -57,15 +63,17 @@ export default function GoogleAnalytics({
       {/* Google Analytics スクリプト */}
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}
-        strategy="lazyOnload"
+        strategy="afterInteractive"
       />
-      <Script id="google-analytics" strategy="lazyOnload">
+      <Script id="google-analytics" strategy="afterInteractive">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
           gtag('config', '${measurementId}', {
-            page_path: window.location.pathname,
+            page_path: window.location.pathname + window.location.search,
+            transport_type: 'beacon',
+            send_page_view: true
           });
         `}
       </Script>
