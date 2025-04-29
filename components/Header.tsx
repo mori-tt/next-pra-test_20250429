@@ -40,7 +40,7 @@ const Header = () => {
             </Link>
           </nav>
           <div className="flex items-center gap-4">
-            <Link href="/contact">
+            <Link href="/contact" aria-label="お問い合わせページへ">
               <Button
                 variant="outline"
                 size="sm"

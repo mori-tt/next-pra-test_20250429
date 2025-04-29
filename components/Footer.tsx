@@ -101,13 +101,25 @@ const Footer = () => {
             © {new Date().getFullYear()} DESIGN STUDIO. All rights reserved.
           </p>
           <div className="flex gap-4 mt-4 md:mt-0">
-            <Link href="/" className="text-neutral-500 hover:text-black">
+            <Link
+              href="/"
+              className="text-neutral-500 hover:text-black"
+              aria-label="Twitter公式アカウント"
+            >
               <Twitter size={20} />
             </Link>
-            <Link href="/" className="text-neutral-500 hover:text-black">
+            <Link
+              href="/"
+              className="text-neutral-500 hover:text-black"
+              aria-label="Instagram公式アカウント"
+            >
               <Instagram size={20} />
             </Link>
-            <Link href="/" className="text-neutral-500 hover:text-black">
+            <Link
+              href="/"
+              className="text-neutral-500 hover:text-black"
+              aria-label="Facebook公式アカウント"
+            >
               <Facebook size={20} />
             </Link>
           </div>
