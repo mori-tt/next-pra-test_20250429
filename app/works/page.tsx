@@ -1,99 +1,47 @@
-"use client";
-
-import Link from "next/link";
-import { useState, Suspense } from "react";
+import { Metadata } from "next";
+import { createMetadata } from "@/utils/metadata";
+import { WORKS_SECTION, BASE_URL } from "@/constants/site";
+import dynamic from "next/dynamic";
 import {
   works as worksData,
   WorkCategory,
   validCategories,
   categoryTitles,
-  WorkInfo,
 } from "@/data/works";
+
+const WorksClient = dynamic(() => import("./WorksClient"), {
+  ssr: false,
+  loading: () => <div>読み込み中...</div>,
+});
+
+export const metadata: Metadata = createMetadata({
+  title: WORKS_SECTION.title,
+  description: WORKS_SECTION.description,
+  openGraph: {
+    title: WORKS_SECTION.title,
+    description: WORKS_SECTION.description,
+    url: `${BASE_URL}works`,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: WORKS_SECTION.title,
+    description: WORKS_SECTION.description,
+  },
+  canonical: `${BASE_URL}works`,
+});
 
 // カテゴリボタン用のオプション
 const workCategories = [
   { id: "all", name: "すべて" },
   ...validCategories.map((category) => ({
     id: category,
-    name: categoryTitles[category as WorkCategory],
+    name: categoryTitles[category as WorkCategory] || String(category),
   })),
 ];
 
-// WorkList コンポーネントを分離して必要に応じて読み込む
-const WorkList = ({ works }: { works: WorkInfo[] }) => {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-      {works.map((work) => (
-        <Link
-          href={`/works/${work.slug}`}
-          key={work.slug}
-          className="group block overflow-hidden rounded-lg border hover:shadow-md transition-shadow"
-        >
-          <div className="aspect-video w-full overflow-hidden">
-            <img
-              src={work.image}
-              alt={work.title}
-              className="h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
-            />
-          </div>
-          <div className="p-4">
-            <div className="mb-2 text-sm text-neutral-500">
-              {work.categoriesjp.join(" · ")}
-            </div>
-            <h3 className="text-lg font-medium">{work.title}</h3>
-          </div>
-        </Link>
-      ))}
-    </div>
-  );
-};
-
 export default function WorksPage() {
   const worksArray = Object.values(worksData);
-  const [selectedCategory, setSelectedCategory] = useState<
-    WorkCategory | "all"
-  >("all");
 
-  // selectedCategoryに基づいてワークをフィルタリング（複数カテゴリ対応）
-  const filteredWorks =
-    selectedCategory === "all"
-      ? worksArray
-      : worksArray.filter((work) => work.categories.includes(selectedCategory));
-
-  return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="mb-8 text-center">
-        <h1 className="text-4xl font-bold">実績</h1>
-        <p className="mt-4 text-neutral-600 max-w-2xl mx-auto">
-          これまでに手がけた様々なプロジェクトをご紹介します。
-          各プロジェクトの詳細については、サムネイルをクリックしてください。
-        </p>
-      </div>
-
-      {/* カテゴリフィルター */}
-      <div className="flex flex-wrap justify-center gap-2">
-        {workCategories.map((category) => (
-          <button
-            key={category.id}
-            onClick={() =>
-              setSelectedCategory(category.id as WorkCategory | "all")
-            }
-            className={`px-4 py-2 rounded-full text-sm ${
-              selectedCategory === category.id
-                ? "bg-black text-white"
-                : "bg-neutral-100 hover:bg-neutral-200"
-            }`}
-          >
-            {category.name}
-          </button>
-        ))}
-      </div>
-
-      <Suspense
-        fallback={<div className="mt-8 text-center">読み込み中...</div>}
-      >
-        <WorkList works={filteredWorks} />
-      </Suspense>
-    </div>
-  );
+  return <WorksClient initialWorks={worksArray} categories={workCategories} />;
 }

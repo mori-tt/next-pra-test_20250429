@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { MapPin, Phone, Twitter, Instagram, Linkedin } from "lucide-react";
-import { CONTACT_FORM_URL } from "@/constants/site";
+import { CONTACT_FORM_URL, CONTACT_SECTION, BASE_URL } from "@/constants/site";
+import { Metadata } from "next";
+import { createMetadata } from "@/utils/metadata";
 
 const contactInfo = [
   {
@@ -29,11 +31,22 @@ const contactInfo = [
   },
 ];
 
-export const metadata = {
-  title: "お問い合わせ | DESIGN STUDIO",
-  description:
-    "DESIGN STUDIOへのお問い合わせページ。プロジェクトについてのご相談やお見積もり依頼は、お気軽にお問い合わせください。",
-};
+export const metadata: Metadata = createMetadata({
+  title: CONTACT_SECTION.title,
+  description: CONTACT_SECTION.description,
+  openGraph: {
+    title: CONTACT_SECTION.title,
+    description: CONTACT_SECTION.description,
+    url: `${BASE_URL}contact`,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: CONTACT_SECTION.title,
+    description: CONTACT_SECTION.description,
+  },
+  canonical: `${BASE_URL}contact`,
+});
 
 export default function ContactPage() {
   return (

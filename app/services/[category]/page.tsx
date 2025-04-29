@@ -9,6 +9,7 @@ import {
 } from "@/data/services";
 import { SITE_NAME } from "@/constants/site";
 import { createMetadata } from "@/utils/metadata";
+import { BASE_URL } from "@/constants/site";
 
 // 静的生成設定
 export const dynamic = "force-static";
@@ -54,12 +55,29 @@ export async function generateMetadata({
     );
   }
 
+  const serviceData = services[category as ServiceCategory];
+  const title = serviceData.title;
+  const description = `DESIGN STUDIOの${title}サービスについてご紹介します。${serviceData.description}`;
+  const pageUrl = `${BASE_URL}services/${category}`;
+
   return createMetadata(
     {
-      title: services[category as ServiceCategory].title,
-      description: `DESIGN STUDIOの${
-        services[category as ServiceCategory].title
-      }サービスについてご紹介します。`,
+      title: title,
+      description: description,
+      openGraph: {
+        title: title,
+        description: description,
+        url: pageUrl,
+        type: "article",
+        images: serviceData.image ? [{ url: serviceData.image }] : undefined,
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: title,
+        description: description,
+        images: serviceData.image ? [serviceData.image] : undefined,
+      },
+      canonical: pageUrl,
     },
     SITE_NAME
   );

@@ -8,7 +8,7 @@ import {
   categoryTitles,
   works,
 } from "@/data/works";
-import { SITE_NAME, SPECIAL_PAGES } from "@/constants/site";
+import { SITE_NAME, SPECIAL_PAGES, BASE_URL } from "@/constants/site";
 import { createMetadata } from "@/utils/metadata";
 
 // 静的生成の設定
@@ -51,10 +51,28 @@ export async function generateMetadata({
   // スラッグがworksオブジェクトに存在する場合、その作品のメタデータを返す
   if (works[category]) {
     const work = works[category];
+    const title = work.title;
+    const description = work.description;
+    const pageUrl = `${BASE_URL}works/${category}`;
+
     return createMetadata(
       {
-        title: work.title,
-        description: work.description,
+        title: title,
+        description: description,
+        openGraph: {
+          title: title,
+          description: description,
+          url: pageUrl,
+          type: "article",
+          images: work.image ? [{ url: work.image }] : undefined,
+        },
+        twitter: {
+          card: "summary_large_image",
+          title: title,
+          description: description,
+          images: work.image ? [work.image] : undefined,
+        },
+        canonical: pageUrl,
       },
       SITE_NAME
     );
@@ -63,10 +81,25 @@ export async function generateMetadata({
   // 有効なカテゴリの場合はメタデータを返す
   if (isValidWorkCategory(category)) {
     const categoryTitle = categoryTitles[category] || category;
+    const description = `${categoryTitle}に関する実績とプロジェクト事例をご紹介します。`;
+    const pageUrl = `${BASE_URL}works/${category}`;
+
     return createMetadata(
       {
         title: categoryTitle,
-        description: `${categoryTitle}に関する実績とプロジェクト事例をご紹介します。`,
+        description: description,
+        openGraph: {
+          title: categoryTitle,
+          description: description,
+          url: pageUrl,
+          type: "website",
+        },
+        twitter: {
+          card: "summary_large_image",
+          title: categoryTitle,
+          description: description,
+        },
+        canonical: pageUrl,
       },
       SITE_NAME
     );

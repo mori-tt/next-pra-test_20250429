@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Metadata } from "next";
+import { createMetadata } from "@/utils/metadata";
+import { COMPANY_SECTION, BASE_URL } from "@/constants/site";
 import {
   Users,
   Lightbulb,
@@ -13,6 +16,23 @@ import {
   Eye,
   Sparkles,
 } from "lucide-react";
+
+export const metadata: Metadata = createMetadata({
+  title: COMPANY_SECTION.title,
+  description: COMPANY_SECTION.description,
+  openGraph: {
+    title: COMPANY_SECTION.title,
+    description: COMPANY_SECTION.description,
+    url: `${BASE_URL}about`,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: COMPANY_SECTION.title,
+    description: COMPANY_SECTION.description,
+  },
+  canonical: `${BASE_URL}about`,
+});
 
 const teamMembers = [
   {

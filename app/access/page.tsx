@@ -1,6 +1,6 @@
 import { Suspense, lazy } from "react";
 import { Metadata } from "next";
-import { ACCESS_SECTION, SITE_NAME } from "@/constants/site";
+import { ACCESS_SECTION, SITE_NAME, BASE_URL } from "@/constants/site";
 import { createMetadata } from "@/utils/metadata";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -9,8 +9,20 @@ import { Button } from "@/components/ui/button";
 const GoogleMapWrapper = lazy(() => import("./GoogleMapWrapper"));
 
 export const metadata: Metadata = createMetadata({
-  title: `${ACCESS_SECTION.title} | ${SITE_NAME}`,
+  title: ACCESS_SECTION.title,
   description: ACCESS_SECTION.description,
+  openGraph: {
+    title: ACCESS_SECTION.title,
+    description: ACCESS_SECTION.description,
+    url: `${BASE_URL}access`,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: ACCESS_SECTION.title,
+    description: ACCESS_SECTION.description,
+  },
+  canonical: `${BASE_URL}access`,
 });
 
 export default function AccessPage() {
